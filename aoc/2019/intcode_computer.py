@@ -27,6 +27,8 @@ class IntcodeComputer:
         self.input = [int(x) for x in self.input]
         self.n = len(self.input)
         self.instructions = [1, 2, 99]
+        self.step = 0
+        
         if noun != '':
             self.input[1] = noun
         if verb != '':
@@ -36,25 +38,43 @@ class IntcodeComputer:
         i = 0
         while i < self.n:
     
-            opcode = self.input[i]
-        
+            pos0 = str(self.input[i])
+            
+            opcode = int(pos0[-2:])
+            
+            
             if opcode == 99:
                 break
         
-            pos1 = self.input[i + 1]
-            pos2 = self.input[i + 2]
-            pos3 = self.input[i + 3]
+
       
             if opcode == 1:
+                pos1 = self.input[i + 1]
+                pos2 = self.input[i + 2]
+                pos3 = self.input[i + 3]
                 val = self.input[pos1] + self.input[pos2]
+                self.input[pos3] = val
+                self.step = 4
                 
             if opcode == 2:
+                pos1 = self.input[i + 1]
+                pos2 = self.input[i + 2]
+                pos3 = self.input[i + 3]
                 val = self.input[pos1] * self.input[pos2]
+                self.input[pos3] = val
+                self.step = 4
+            
+            if opcode == 3:
+                
+                self.step = 2
+                
+            if opcode == 4:
+                
+                self.step = 2
             
             
-            self.input[pos3] = val
             
-            i += 4
+            i += self.step
     
     def __eq__(self, other):
         return self.input == other.input
