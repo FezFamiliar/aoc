@@ -36,6 +36,7 @@ class IntcodeComputer:
             self.input[2] = verb
             
     def run(self):
+        
         i = 0
         while i < self.n:
     
@@ -67,21 +68,49 @@ class IntcodeComputer:
         if new_opcode == 2:       # multiply
             self.multiply(i, mode1, mode2, mode3)
             self.step = 4
+        
+        if new_opcode == 3:
+            self.command3(i, mode1, 55)
+            self.step = 2
+            
+            
+        if new_opcode == 4:
+            self.command4(i, mode1)
+            self.step = 2
             
         
     
     def sum(self, i, mode1, mode2, mode3):
-        pos1 = self.input[i + 1]
-        pos2 = self.input[i + 2]
-        pos3 = self.input[i + 3]
-        self.input[pos3] = (self.input[pos1] if mode1 == '0' else pos1) + (self.input[pos2] if mode2 == '0' else pos2)
+        param1 = self.input[i + 1]
+        param2 = self.input[i + 2]
+        param3 = self.input[i + 3]
+        self.input[param3] = (self.input[param1] if mode1 == '0' else param1) + (self.input[param2] if mode2 == '0' else param2)
         
         
     def multiply(self, i, mode1, mode2, mode3): # dont forget about possible mode3 for param3
-        pos1 = self.input[i + 1]
-        pos2 = self.input[i + 2]
-        pos3 = self.input[i + 3]
-        self.input[i + 3] = (self.input[pos1] if mode1 == '0' else pos1) * (self.input[pos2] if mode2 == '0' else pos2)
+        param1 = self.input[i + 1]
+        param2 = self.input[i + 2]
+        param3 = self.input[i + 3]
+        self.input[i + 3] = (self.input[param1] if mode1 == '0' else param1) * (self.input[param2] if mode2 == '0' else param2)
+        
+    def command3(self, i, mode1, m_i):  
+        # Parameters that an instruction writes to will never be in immediate mode.
+        
+        param1 = self.input[i + 1]
+        print(param1)
+        if mode1 == '0':
+            self.input[param1] = m_i
+
+        
+    def command4(self, i , mode1):
+        
+        param1 = self.input[i + 1]
+        
+        if mode1 == '0':
+            return self.input[param1]
+        else:
+            return param1
+        
     
     def __eq__(self, other):
         return self.input == other.input
