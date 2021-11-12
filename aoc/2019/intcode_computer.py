@@ -71,12 +71,13 @@ class IntcodeComputer:
             self.step = 4
         
         if new_opcode == 3:
-            self.command3(i, mode1, 5)
+            self.command3(i, mode1, 5)   # read in input
             self.step = 2
             
             
         if new_opcode == 4:
             self.command4(i, mode1)
+            print(self.input[self.input[i + 1]]) # output value
             self.step = 2
             
         if new_opcode == 5:
