@@ -54,7 +54,7 @@ class IntcodeComputer:
         new_opcode = int(opcode[-2:])
         
         if new_opcode == 99:
-            print(self.input[i + 1])            # diagnostic code
+            print(self.input[i + 1])
             return True
        
         mode1 = opcode[-3:-2]
@@ -71,7 +71,7 @@ class IntcodeComputer:
             self.step = 4
         
         if new_opcode == 3:
-            self.command3(i, mode1, 1)
+            self.command3(i, mode1, 5)
             self.step = 2
             
             
@@ -79,6 +79,21 @@ class IntcodeComputer:
             self.command4(i, mode1)
             self.step = 2
             
+        if new_opcode == 5:
+            self.command5(i, mode1, mode2)
+            self.step = 2
+            
+        if new_opcode == 6:
+            self.command6(i, mode1, mode2)
+            self.step = 2
+            
+        if new_opcode == 7:
+            self.command7(i, mode1, mode2)
+            self.step = 4
+            
+        if new_opcode == 8:
+            self.command8(i, mode1, mode2)
+            self.step = 4
         
     
     def sum(self, i, mode1, mode2, mode3):
@@ -114,6 +129,111 @@ class IntcodeComputer:
             return self.input[param1]
         else:
             return param1
+            
+            
+    #   jump-if-true: 
+    #if the first parameter is non-zero, it sets the instruction pointer to the value from thesecond parameter. Otherwise, it does nothing.
+    def command5(self, i, mode1, mode2):    
+        
+        param1 = self.input[i + 1]
+        param2 = self.input[i + 2]
+        
+        if mode1 == 0:
+            if self.input[param1] != 0:
+                if mode2 == 0:
+                    return self.input[param2]
+                else:
+                    return param2
+        
+        else:
+            if param1 != 0:
+                if mode2 == 0:
+                    return self.input[param2]
+                else:
+                    return param2
+                
+
+        
+    def command6(self, i, mode1, mode2):
+        param1 = self.input[i + 1]
+        param2 = self.input[i + 2]
+        
+        if mode1 == 0:
+            if self.input[param1] == 0:
+                if mode2 == 0:
+                    return self.input[param2]
+                else:
+                    return param2
+        
+        else:
+            if param1 == 0:
+                if mode2 == 0:
+                    return self.input[param2]
+                else:
+                    return param2
+                    
+                    
+    def command7(self, i, mode1, mode2):
+        param1 = self.input[i + 1]
+        param2 = self.input[i + 2]
+        param3 = self.input[i + 3]
+        
+        if mode1 == 0:
+            if mode2 == 0:
+                if self.input[param1] < self.input[param2]:
+                    self.input[param3] = 1
+                else:
+                    self.input[param3] = 0
+            else:
+                if self.input[param1] < param2:
+                    self.input[param3] = 1
+                else:
+                    self.input[param3] = 0
+        
+        else:
+            if mode2 == 0:
+                if param1 < self.input[param2]:
+                    self.input[param3] = 1
+                else:
+                    self.input[param3] = 0
+            else:
+                if param1 < param2:
+                    self.input[param3] = 1
+                else:
+                    self.input[param3] = 0
+                    
+                    
+        
+        
+        
+    def command8(self, i, mode1, mode2):
+        param1 = self.input[i + 1]
+        param2 = self.input[i + 2]
+        param3 = self.input[i + 3]
+        
+        if mode1 == 0:
+            if mode2 == 0:
+                if self.input[param1] == self.input[param2]:
+                    self.input[param3] = 1
+                else:
+                    self.input[param3] = 0
+            else:
+                if self.input[param1] == param2:
+                    self.input[param3] = 1
+                else:
+                    self.input[param3] = 0
+        
+        else:
+            if mode2 == 0:
+                if param1 == self.input[param2]:
+                    self.input[param3] = 1
+                else:
+                    self.input[param3] = 0
+            else:
+                if param1 == param2:
+                    self.input[param3] = 1
+                else:
+                    self.input[param3] = 0
    
         
     
