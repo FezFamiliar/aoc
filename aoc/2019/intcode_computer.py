@@ -27,7 +27,8 @@ class IntcodeComputer:
         self.input = [int(x) for x in self.input]
         self.n = len(self.input)
         self.instructions = [1, 2, 99]
-        self.step = 0
+        self.step = 0   
+        self.mode = 0
         
         if noun != '':
             self.input[1] = noun
@@ -40,41 +41,47 @@ class IntcodeComputer:
     
             pos0 = str(self.input[i])
             
-            opcode = int(pos0[-2:])
-            
-            
-            if opcode == 99:
+            if self.execute(pos0, i):
                 break
-        
-
-      
-            if opcode == 1:
-                pos1 = self.input[i + 1]
-                pos2 = self.input[i + 2]
-                pos3 = self.input[i + 3]
-                val = self.input[pos1] + self.input[pos2]
-                self.input[pos3] = val
-                self.step = 4
-                
-            if opcode == 2:
-                pos1 = self.input[i + 1]
-                pos2 = self.input[i + 2]
-                pos3 = self.input[i + 3]
-                val = self.input[pos1] * self.input[pos2]
-                self.input[pos3] = val
-                self.step = 4
-            
-            if opcode == 3:
-                
-                self.step = 2
-                
-            if opcode == 4:
-                
-                self.step = 2
-            
-            
             
             i += self.step
+            
+            
+    def execute(self, opcode, i):
+        
+        opcode = opcode.rjust(5, '0')
+        new_opcode = int(opcode[-2:])
+        
+        if new_opcode == 99:
+            return True
+       
+        mode1 = opcode[-3:-2]
+        mode2 = opcode[-4:-3]
+        mode3 = opcode[-4:-3]
+    
+
+        if new_opcode == 1:         # sum
+            self.sum(i, mode1, mode2, mode3)
+            self.step = 4      # sum operation has 4 params, 1 opcode + 3 params
+
+        if new_opcode == 2:       # multiply
+            self.multiply(i, mode1, mode2, mode3)
+            self.step = 4
+            
+        
+    
+    def sum(self, i, mode1, mode2, mode3):
+        pos1 = self.input[i + 1]
+        pos2 = self.input[i + 2]
+        pos3 = self.input[i + 3]
+        self.input[pos3] = (self.input[pos1] if mode1 == '0' else pos1) + (self.input[pos2] if mode2 == '0' else pos2)
+        
+        
+    def multiply(self, i, mode1, mode2, mode3): # dont forget about possible mode3 for param3
+        pos1 = self.input[i + 1]
+        pos2 = self.input[i + 2]
+        pos3 = self.input[i + 3]
+        self.input[i + 3] = (self.input[pos1] if mode1 == '0' else pos1) * (self.input[pos2] if mode2 == '0' else pos2)
     
     def __eq__(self, other):
         return self.input == other.input
