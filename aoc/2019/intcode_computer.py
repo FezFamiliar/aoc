@@ -58,7 +58,7 @@ class IntcodeComputer:
        
         mode1 = opcode[-3:-2]
         mode2 = opcode[-4:-3]
-        mode3 = opcode[-4:-3]
+        mode3 = opcode[-4:-3]           # this is not yet used
     
 
         if new_opcode == 1:         # sum
