@@ -58,7 +58,7 @@ class IntcodeComputer:
        
         mode1 = opcode[-3:-2]
         mode2 = opcode[-4:-3]
-        mode3 = opcode[-4:-3]           # this is not yet used
+        mode3 = opcode[-4:-3]
     
 
         if new_opcode == 1:         # sum
@@ -70,7 +70,7 @@ class IntcodeComputer:
             self.step = 4
         
         if new_opcode == 3:
-            self.command3(i, mode1, 55)
+            self.command3(i, mode1, 1)
             self.step = 2
             
             
@@ -81,23 +81,26 @@ class IntcodeComputer:
         
     
     def sum(self, i, mode1, mode2, mode3):
+        
         param1 = self.input[i + 1]
         param2 = self.input[i + 2]
         param3 = self.input[i + 3]
+        
         self.input[param3] = (self.input[param1] if mode1 == '0' else param1) + (self.input[param2] if mode2 == '0' else param2)
         
         
     def multiply(self, i, mode1, mode2, mode3): # dont forget about possible mode3 for param3
+
         param1 = self.input[i + 1]
         param2 = self.input[i + 2]
         param3 = self.input[i + 3]
-        self.input[i + 3] = (self.input[param1] if mode1 == '0' else param1) * (self.input[param2] if mode2 == '0' else param2)
+
+        self.input[param3] = (self.input[param1] if mode1 == '0' else param1) * (self.input[param2] if mode2 == '0' else param2)
         
     def command3(self, i, mode1, m_i):  
         # Parameters that an instruction writes to will never be in immediate mode.
         
         param1 = self.input[i + 1]
-        print(param1)
         if mode1 == '0':
             self.input[param1] = m_i
 
