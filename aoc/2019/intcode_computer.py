@@ -26,9 +26,8 @@ class IntcodeComputer:
         self.input = self.input.split(',')
         self.input = [int(x) for x in self.input]
         self.n = len(self.input)
-        self.instructions = [1, 2, 99]
+        self.instructions = [1, 2, 3, 4, 5, 6, 7, 8, 99]
         self.step = 0   
-        self.mode = 0
         
         if noun != '':
             self.input[1] = noun
@@ -44,7 +43,7 @@ class IntcodeComputer:
             
             if self.execute(pos0, i):
                 break
-            
+
             i += self.step
             
             
@@ -54,7 +53,7 @@ class IntcodeComputer:
         new_opcode = int(opcode[-2:])
         
         if new_opcode == 99:
-            print(self.input[i + 1])
+            #print(self.input[i + 1])
             return True
        
         mode1 = opcode[-3:-2]
@@ -71,25 +70,24 @@ class IntcodeComputer:
             self.step = 4
         
         if new_opcode == 3:
-            self.command3(i, mode1, 5)   # read in input
+            self.command3(i, mode1, 1)
             self.step = 2
-            
             
         if new_opcode == 4:
             self.command4(i, mode1)
-            print(self.input[self.input[i + 1]]) # output value
+            print(self.input[self.input[i + 1]])
             self.step = 2
             
         if new_opcode == 5:
             self.command5(i, mode1, mode2)
-            self.step = 2
+            self.step = 3
             
         if new_opcode == 6:
             self.command6(i, mode1, mode2)
-            self.step = 2
+            self.step = 3
             
         if new_opcode == 7:
-            self.command7(i, mode1, mode2)
+            i = self.command7(i, mode1, mode2)
             self.step = 4
             
         if new_opcode == 8:
@@ -121,6 +119,7 @@ class IntcodeComputer:
         
         if mode1 == '0':
             self.input[param1] = m_i
+
         
     def command4(self, i , mode1):
         
@@ -139,39 +138,45 @@ class IntcodeComputer:
         param1 = self.input[i + 1]
         param2 = self.input[i + 2]
         
-        if mode1 == 0:
-            if self.input[param1] != 0:
-                if mode2 == 0:
-                    return self.input[param2]
-                else:
-                    return param2
+        # print('param1 = ' + str(param1))
+        # print('param2 = ' + str(param2))
+        # print('mode1 = ' + str(mode1))
+        # print('mode2 = ' + str(mode2))
         
+        if mode1 == '0':
+            if self.input[param1] != 0:
+                if mode2 == '0':
+                    self.step = self.input[param2]
+                else:
+                    self.step = param2
         else:
             if param1 != 0:
-                if mode2 == 0:
-                    return self.input[param2]
+                if mode2 == '0':
+                    self.step = self.input[param2]
                 else:
-                    return param2
+                    self.step = param2
+                    
+       #$ return 0
                 
 
         
     def command6(self, i, mode1, mode2):
         param1 = self.input[i + 1]
         param2 = self.input[i + 2]
-        
-        if mode1 == 0:
+    
+        if mode1 == '0':
             if self.input[param1] == 0:
-                if mode2 == 0:
-                    return self.input[param2]
+                if mode2 == '0':
+                    self.step = self.input[param2]
                 else:
-                    return param2
+                    self.step = param2
         
         else:
             if param1 == 0:
-                if mode2 == 0:
-                    return self.input[param2]
+                if mode2 == '0':
+                    self.step = self.input[param2]
                 else:
-                    return param2
+                    self.step = param2
                     
                     
     def command7(self, i, mode1, mode2):
@@ -179,8 +184,8 @@ class IntcodeComputer:
         param2 = self.input[i + 2]
         param3 = self.input[i + 3]
         
-        if mode1 == 0:
-            if mode2 == 0:
+        if mode1 == '0':
+            if mode2 == '0':
                 if self.input[param1] < self.input[param2]:
                     self.input[param3] = 1
                 else:
@@ -192,7 +197,7 @@ class IntcodeComputer:
                     self.input[param3] = 0
         
         else:
-            if mode2 == 0:
+            if mode2 == '0':
                 if param1 < self.input[param2]:
                     self.input[param3] = 1
                 else:
@@ -211,9 +216,10 @@ class IntcodeComputer:
         param1 = self.input[i + 1]
         param2 = self.input[i + 2]
         param3 = self.input[i + 3]
-        
-        if mode1 == 0:
-            if mode2 == 0:
+    
+
+        if mode1 == '0':
+            if mode2 == '0':
                 if self.input[param1] == self.input[param2]:
                     self.input[param3] = 1
                 else:
@@ -225,7 +231,7 @@ class IntcodeComputer:
                     self.input[param3] = 0
         
         else:
-            if mode2 == 0:
+            if mode2 == '0':
                 if param1 == self.input[param2]:
                     self.input[param3] = 1
                 else:
