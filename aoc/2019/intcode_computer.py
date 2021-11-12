@@ -54,6 +54,7 @@ class IntcodeComputer:
         new_opcode = int(opcode[-2:])
         
         if new_opcode == 99:
+            print(self.input[i + 1])            # diagnostic code
             return True
        
         mode1 = opcode[-3:-2]
@@ -101,9 +102,9 @@ class IntcodeComputer:
         # Parameters that an instruction writes to will never be in immediate mode.
         
         param1 = self.input[i + 1]
+        
         if mode1 == '0':
             self.input[param1] = m_i
-
         
     def command4(self, i , mode1):
         
@@ -113,6 +114,7 @@ class IntcodeComputer:
             return self.input[param1]
         else:
             return param1
+   
         
     
     def __eq__(self, other):
