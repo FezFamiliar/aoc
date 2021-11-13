@@ -28,6 +28,7 @@ class IntcodeComputer:
         self.n = len(self.input)
         self.instructions = [1, 2, 3, 4, 5, 6, 7, 8, 99]
         self.step = 0   
+        self.overwrite = 0
         
         if noun != '':
             self.input[1] = noun
@@ -43,8 +44,12 @@ class IntcodeComputer:
             
             if self.execute(pos0, i):
                 break
-
-            i += self.step
+            
+            if self.overwrite != 0:
+                i = self.overwrite
+                self.overwrite = 0
+            else:
+                i += self.step
             
             
     def execute(self, opcode, i):
@@ -53,7 +58,7 @@ class IntcodeComputer:
         new_opcode = int(opcode[-2:])
         
         if new_opcode == 99:
-            #print(self.input[i + 1])
+            print(self.input[i + 1])
             return True
        
         mode1 = opcode[-3:-2]
@@ -61,21 +66,21 @@ class IntcodeComputer:
         mode3 = opcode[-4:-3]
     
 
-        if new_opcode == 1:         # sum
+        if new_opcode == 1:         
             self.sum(i, mode1, mode2, mode3)
-            self.step = 4      # sum operation has 4 params, 1 opcode + 3 params
+            self.step = 4   
 
         if new_opcode == 2:       # multiply
             self.multiply(i, mode1, mode2, mode3)
             self.step = 4
         
         if new_opcode == 3:
-            self.command3(i, mode1, 1)
+            self.command3(i, mode1, 5)
             self.step = 2
             
         if new_opcode == 4:
-            self.command4(i, mode1)
-            print(self.input[self.input[i + 1]])
+            output = self.command4(i, mode1)
+            print(output)
             self.step = 2
             
         if new_opcode == 5:
@@ -104,7 +109,7 @@ class IntcodeComputer:
         self.input[param3] = (self.input[param1] if mode1 == '0' else param1) + (self.input[param2] if mode2 == '0' else param2)
         
         
-    def multiply(self, i, mode1, mode2, mode3): # dont forget about possible mode3 for param3
+    def multiply(self, i, mode1, mode2, mode3): 
 
         param1 = self.input[i + 1]
         param2 = self.input[i + 2]
@@ -113,8 +118,7 @@ class IntcodeComputer:
         self.input[param3] = (self.input[param1] if mode1 == '0' else param1) * (self.input[param2] if mode2 == '0' else param2)
         
     def command3(self, i, mode1, m_i):  
-        # Parameters that an instruction writes to will never be in immediate mode.
-        
+    
         param1 = self.input[i + 1]
         
         if mode1 == '0':
@@ -130,53 +134,48 @@ class IntcodeComputer:
         else:
             return param1
             
-            
-    #   jump-if-true: 
-    #if the first parameter is non-zero, it sets the instruction pointer to the value from thesecond parameter. Otherwise, it does nothing.
+          
     def command5(self, i, mode1, mode2):    
         
         param1 = self.input[i + 1]
         param2 = self.input[i + 2]
         
-        # print('param1 = ' + str(param1))
-        # print('param2 = ' + str(param2))
-        # print('mode1 = ' + str(mode1))
-        # print('mode2 = ' + str(mode2))
-        
         if mode1 == '0':
             if self.input[param1] != 0:
                 if mode2 == '0':
-                    self.step = self.input[param2]
+                    self.overwrite = self.input[param2]
                 else:
-                    self.step = param2
+                    self.overwrite = param2
         else:
             if param1 != 0:
                 if mode2 == '0':
-                    self.step = self.input[param2]
+                    self.overwrite = self.input[param2]
                 else:
-                    self.step = param2
+                    self.overwrite = param2
                     
-       #$ return 0
+       
                 
 
         
     def command6(self, i, mode1, mode2):
         param1 = self.input[i + 1]
         param2 = self.input[i + 2]
-    
+        
         if mode1 == '0':
             if self.input[param1] == 0:
                 if mode2 == '0':
-                    self.step = self.input[param2]
+                    self.overwrite = self.input[param2]
                 else:
-                    self.step = param2
+                    self.overwrite = param2
         
         else:
             if param1 == 0:
                 if mode2 == '0':
-                    self.step = self.input[param2]
+                    self.overwrite = self.input[param2]
                 else:
-                    self.step = param2
+                    self.overwrite = param2
+                    
+        
                     
                     
     def command7(self, i, mode1, mode2):
@@ -213,11 +212,11 @@ class IntcodeComputer:
         
         
     def command8(self, i, mode1, mode2):
+        
         param1 = self.input[i + 1]
         param2 = self.input[i + 2]
         param3 = self.input[i + 3]
     
-
         if mode1 == '0':
             if mode2 == '0':
                 if self.input[param1] == self.input[param2]:
