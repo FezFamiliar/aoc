@@ -9,11 +9,11 @@ import (
 
 
 var aux = []string{}
-
-
+//var path = []string{}
+var intrs = []string{}
 func main() {
 
-/*
+
 	input := `2TJ)S3Z
 	MJD)YP8
 	9K5)7Q4
@@ -2107,24 +2107,24 @@ func main() {
 	19Z)TS4
 	5TG)8DR
 	KDV)Y6W`
-*/
 
 
-		test := `COM)B
-		B)C
-		C)D
-		D)E
-		E)F
-		B)G
-		G)H
-		D)I
-		E)J
-		J)K
-		K)L
-		K)YOU
-		I)SAN`
 
-	s := strings.Fields(test)
+		// test := `COM)B
+		// B)C
+		// C)D
+		// D)E
+		// E)F
+		// B)G
+		// G)H
+		// D)I
+		// E)J
+		// J)K
+		// K)L
+		// K)YOU
+		// I)SAN`
+
+	s := strings.Fields(input)
 	m := make(map[string][] string)
 
 	
@@ -2157,7 +2157,9 @@ func main() {
 
 
 
-	findShortestPath("YOU", "SAN", m)
+	f := findShortestPath("YOU", "SAN", m)
+
+	fmt.Println(f)
 }
 
 
@@ -2189,19 +2191,44 @@ func findHowManyOrbits(left string, s[] string) {
 
 func findShortestPath(source string, destination string, m map[string][] string) int {
 
-	start := m[source][0]
-	end := m[destination][0]
-	fmt.Println("starting from", start)
-	fmt.Println("end orbit", end)
-	for _, i := range m[source]{
-		fmt.Println(i)
+	// start := m[source][0]
+	// end := m[destination][0]
+	fmt.Println(m[source][0])
+	source_length := len(m[source])
+	dest_length := len(m[destination])
+
+	for i := 1; i < source_length; i++ {
+		for j := 1; j < dest_length; j++ {
+
+			if m[source][i] == m[destination][j] {
+				intrs = append(intrs, m[source][i])
+			}
+		}
 	}
 
 
-	for _, i := range m[destination]{
-		fmt.Println(i)
+
+	fmt.Println(intrs)
+	int_point := intrs[0]
+
+	result := 0
+
+
+	for i := 1; i < source_length; i++ {
+		result += 1
+		if m[source][i] == int_point {
+			break
+		}
 	}
 
 
-	return 0
+	for i := 1; i < dest_length; i++ {
+		result += 1
+		if m[destination][i] == int_point {
+			break
+		}
+	}
+
+
+	return result
 }
