@@ -21,13 +21,15 @@
 # 5. The instruction pointer should increase by the number of values in the instruction after the instruction finishes. (step value)
 
 class IntcodeComputer:
-    def __init__(self, input, noun = '', verb = ''):
+    def __init__(self, input, noun = '', verb = '', start = 0):
         self.input = input
         self.input = self.input.split(',')
         self.input = [int(x) for x in self.input]
         self.n = len(self.input)
         self.instructions = [1, 2, 3, 4, 5, 6, 7, 8, 99]
         self.step = 0   
+        self.output = -1
+        self.start = start
         self.overwrite = 0
         
         if noun != '':
@@ -58,7 +60,7 @@ class IntcodeComputer:
         new_opcode = int(opcode[-2:])
         
         if new_opcode == 99:
-            print(self.input[i + 1])
+            print("output right before program halts: " + str(self.input[i + 1]))
             return True
        
         mode1 = opcode[-3:-2]
@@ -75,12 +77,13 @@ class IntcodeComputer:
             self.step = 4
         
         if new_opcode == 3:
-            self.command3(i, mode1, 5)
+            self.command3(i, mode1, self.start)
             self.step = 2
             
         if new_opcode == 4:
             output = self.command4(i, mode1)
-            print(output)
+            self.output = output
+            print("output from opcode 4: " + str(output))
             self.step = 2
             
         if new_opcode == 5:
@@ -242,13 +245,12 @@ class IntcodeComputer:
                     self.input[param3] = 0
    
         
-    
+    def getOutput(slef):
+        return self.output
+        
     def __eq__(self, other):
         return self.input == other.input
         
     def __repr__(self):
         return "<input:%s length:%s instructions:%s noun:%s verb:%s>" % (self.input, self.n, self.instructions, self.input[1], self.input[2])
-
-
-    
     
