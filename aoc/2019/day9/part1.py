@@ -554,5 +554,5 @@ class IntcodeComputer:
         return "<input:%s length:%s instructions:%s noun:%s verb:%s>" % (self.input, self.n, self.instructions, self.input[1], self.input[2])
     
     
-c = IntcodeComputer(input, '', '', 1)
+c = IntcodeComputer(input, '', '', 1)  # just change this to 2 for part2
 c.run()
