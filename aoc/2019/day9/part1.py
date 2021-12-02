@@ -294,37 +294,37 @@ class IntcodeComputer:
                 if self.input[param1] < self.input[param2]:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
             elif mode2 == '1':
                 if self.input[param1] < param2:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
             elif mode2 == '2':
                 if self.input[param1] < self.input[self.relative_base + param2]:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
         
         elif mode1 == '1':
@@ -332,38 +332,38 @@ class IntcodeComputer:
                 if param1 < self.input[param2]:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
             elif mode2 == '1':
                 if param1 < param2:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
                     
             elif mode2 == '2':
                 if param1 < self.input[self.relative_base + param2]:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
                     
         elif mode1 == '2':
@@ -371,39 +371,39 @@ class IntcodeComputer:
                 if self.input[self.relative_base + param1] < self.input[param2]:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
                     
             elif mode2 == '1':
                 if self.input[self.relative_base + param1] < param2:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
                     
             elif mode2 == '2':
                 if self.input[self.relative_base + param1] < self.input[self.relative_base + param2]:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                         
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0       
                     
         
@@ -420,37 +420,37 @@ class IntcodeComputer:
                 if self.input[param1] == self.input[param2]:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
             elif mode2 == '1':
                 if self.input[param1] == param2:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
             elif mode2 == '2':
                 if self.input[param1] == self.input[self.relative_base + param2]:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
         
         elif mode1 == '1':
@@ -458,37 +458,37 @@ class IntcodeComputer:
                 if param1 == self.input[param2]:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
             elif mode2 == '1':
                 if param1 == param2:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
             elif mode2 == '2':
                 if param1 == self.input[self.relative_base + param2]:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
                     
         elif mode1 == '2':
@@ -496,37 +496,37 @@ class IntcodeComputer:
                 if self.input[self.relative_base + param1] == self.input[param2]:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
             elif mode2 == '1':
                 if self.input[self.relative_base + param1] == param2:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
             elif mode2 == '2':
                 if self.input[self.relative_base + param1] == self.input[self.relative_base + param2]:
                     if mode3 == '0':
                         self.input[param3] = 1
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 1
                     
                 else:
                     if mode3 == '0':
                         self.input[param3] = 0
-                    elif mode3 == '1':
+                    elif mode3 == '2':
                         self.input[self.relative_base + param3] = 0
    
    
