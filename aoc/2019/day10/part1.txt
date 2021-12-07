@@ -1,0 +1,76 @@
+def printResult(result, rows, cols):
+    for i in range(0, rows):
+        for j in range(0, cols):
+            print(result[rows * i + j], end='')
+        print()
+
+def eightDirection(i_off, j_off, rows, cols):
+    
+    collision = 0
+    
+    # go down
+    for i in range(i_off + 1, rows):
+        if input[i][j_off] == '#':
+            collision += 1
+            break
+        
+    # go left
+    for j in range(j_off - 1, 0, -1):
+        if input[i_off][j] == '#':
+            collision += 1
+            break
+        
+    # go up
+    for i in range(i_off - 1, 0, -1):
+        if input[i][j_off] == '#':
+            collision += 1
+            break
+        
+    # go right
+    for j in range(j_off + 1, cols):
+        if input[i_off][j] == '#':
+            collision += 1
+            break
+        
+        
+    return collision
+        
+input = '''.#..#
+.....
+#####
+....#
+...##'''
+
+
+input = input.split("\n")
+
+rows = len(input)
+cols = len(input[0])
+
+result = []
+# print(input)
+# print(rows)
+# print(cols)
+
+for i in range(0, rows):
+    for j in range(0, cols):
+        if input[i][j] == '#':
+            result.append(eightDirection(i, j, rows, cols))
+        else:
+            result.append(0)
+            
+            
+printResult(result, rows, cols)
+
+            
+
+
+
+
+
+
+
+
+
+
+
