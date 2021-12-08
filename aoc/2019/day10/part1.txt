@@ -34,7 +34,7 @@ def eightDirection(i_off, j_off, rows, cols):
             break
     
     
-    # go left and up diagonally
+    #go left and up diagonally
     
     di = i_off - 1;
     dj = j_off - 1;
@@ -53,7 +53,7 @@ def eightDirection(i_off, j_off, rows, cols):
     # go right and up diagonally
     
     di = i_off - 1;
-    dj = j_off - 1;
+    dj = j_off + 1;
     
     while di < rows and dj < cols:
         
@@ -64,20 +64,6 @@ def eightDirection(i_off, j_off, rows, cols):
         di -= 1
         dj += 1
         
-        
-    # go right and up diagonally
-    
-    di = i_off - 1;
-    dj = j_off + 1;
-    
-    while di < rows and dj < cols:
-        
-        if input[di][dj] == '#':
-            collision += 1
-            break
-        
-        di -= 1
-        dj += 1 
         
         
     # go left and down diagonally
@@ -120,6 +106,38 @@ input = '''.#..#
 ....#
 ...##'''
 
+input = '''......#.#.
+#..#.#....
+..#######.
+.#.#.###..
+.#..#.....
+..#....#.#
+#..#....#.
+.##.#..###
+##...#..#.
+.#....####'''
+
+
+# input = '''.#..##.###...#######
+# ##.############..##.
+# .#.######.########.#
+# .###.#######.####.#.
+# #####.##.#.##.###.##
+# ..#####..#.#########
+# ####################
+# #.####....###.#.#.##
+# ##.#################
+# #####.##.###..####..
+# ..######..##.#######
+# ####.##.####...##..#
+# .#####..#.######.###
+# ##...#.##########...
+# #.##########.#######
+# .####.#.###.###.#.##
+# ....##.##.###..#####
+# .#.#.###########.###
+# #.#.#.#####.####.###
+# ###.##.####.##.#..##'''
 
 input = input.split("\n")
 
