@@ -6,8 +6,9 @@ def printResult(result, rows, cols):
 
 def eightDirection(i_off, j_off, rows, cols):
     
-    collision = 0
     
+    collision = 0
+
     # go down
     for i in range(i_off + 1, rows):
         if input[i][j_off] == '#':
@@ -15,13 +16,13 @@ def eightDirection(i_off, j_off, rows, cols):
             break
         
     # go left
-    for j in range(j_off - 1, 0, -1):
+    for j in range(j_off - 1, -1, -1):
         if input[i_off][j] == '#':
             collision += 1
             break
         
     # go up
-    for i in range(i_off - 1, 0, -1):
+    for i in range(i_off - 1, -1, -1):
         if input[i][j_off] == '#':
             collision += 1
             break
@@ -31,7 +32,85 @@ def eightDirection(i_off, j_off, rows, cols):
         if input[i_off][j] == '#':
             collision += 1
             break
+    
+    
+    # go left and up diagonally
+    
+    di = i_off - 1;
+    dj = j_off - 1;
+    
+    while di >= 0 and dj >= 0:
         
+        if input[di][dj] == '#':
+            collision += 1
+            break
+        
+        di -= 1
+        dj -= 1
+    
+    
+    
+    # go right and up diagonally
+    
+    di = i_off - 1;
+    dj = j_off - 1;
+    
+    while di < rows and dj < cols:
+        
+        if input[di][dj] == '#':
+            collision += 1
+            break
+        
+        di -= 1
+        dj += 1
+        
+        
+    # go right and up diagonally
+    
+    di = i_off - 1;
+    dj = j_off + 1;
+    
+    while di < rows and dj < cols:
+        
+        if input[di][dj] == '#':
+            collision += 1
+            break
+        
+        di -= 1
+        dj += 1 
+        
+        
+    # go left and down diagonally
+    
+    di = i_off + 1;
+    dj = j_off - 1;
+    
+    while di < rows and dj >= 0:
+        
+        if input[di][dj] == '#':
+            collision += 1
+            break
+        
+        di += 1
+        dj -= 1 
+        
+        
+    # go right and down diagonally
+    
+    di = i_off + 1;
+    dj = j_off + 1;
+    
+    while di < rows and dj < cols:
+        
+        if input[di][dj] == '#':
+            collision += 1
+            break
+        
+        di += 1
+        dj += 1 
+        
+    
+    
         
     return collision
         
