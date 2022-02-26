@@ -22,43 +22,43 @@ FG..#########.....#
              Z       '''
 
 
-# input = '''                   A               
-#                    A               
-#   #################.#############  
-#   #.#...#...................#.#.#  
-#   #.#.#.###.###.###.#########.#.#  
-#   #.#.#.......#...#.....#.#.#...#  
-#   #.#########.###.#####.#.#.###.#  
-#   #.............#.#.....#.......#  
-#   ###.###########.###.#####.#.#.#  
-#   #.....#        A   C    #.#.#.#  
-#   #######        S   P    #####.#  
-#   #.#...#                 #......VT
-#   #.#.#.#                 #.#####  
-#   #...#.#               YN....#.#  
-#   #.###.#                 #####.#  
-# DI....#.#                 #.....#  
-#   #####.#                 #.###.#  
-# ZZ......#               QG....#..AS
-#   ###.###                 #######  
-# JO..#.#.#                 #.....#  
-#   #.#.#.#                 ###.#.#  
-#   #...#..DI             BU....#..LF
-#   #####.#                 #.#####  
-# YN......#               VT..#....QG
-#   #.###.#                 #.###.#  
-#   #.#...#                 #.....#  
-#   ###.###    J L     J    #.#.###  
-#   #.....#    O F     P    #.#...#  
-#   #.###.#####.#.#####.#####.###.#  
-#   #...#.#.#...#.....#.....#.#...#  
-#   #.#####.###.###.#.#.#########.#  
-#   #...#.#.....#...#.#.#.#.....#.#  
-#   #.###.#####.###.###.#.#.#######  
-#   #.#.........#...#.............#  
-#   #########.###.###.#############  
-#            B   J   C               
-#            U   P   P               '''
+input = '''                   A               
+                   A               
+  #################.#############  
+  #.#...#...................#.#.#  
+  #.#.#.###.###.###.#########.#.#  
+  #.#.#.......#...#.....#.#.#...#  
+  #.#########.###.#####.#.#.###.#  
+  #.............#.#.....#.......#  
+  ###.###########.###.#####.#.#.#  
+  #.....#        A   C    #.#.#.#  
+  #######        S   P    #####.#  
+  #.#...#                 #......VT
+  #.#.#.#                 #.#####  
+  #...#.#               YN....#.#  
+  #.###.#                 #####.#  
+DI....#.#                 #.....#  
+  #####.#                 #.###.#  
+ZZ......#               QG....#..AS
+  ###.###                 #######  
+JO..#.#.#                 #.....#  
+  #.#.#.#                 ###.#.#  
+  #...#..DI             BU....#..LF
+  #####.#                 #.#####  
+YN......#               VT..#....QG
+  #.###.#                 #.###.#  
+  #.#...#                 #.....#  
+  ###.###    J L     J    #.#.###  
+  #.....#    O F     P    #.#...#  
+  #.###.#####.#.#####.#####.###.#  
+  #...#.#.#...#.....#.....#.#...#  
+  #.#####.###.###.#.#.#########.#  
+  #...#.#.....#...#.#.#.#.....#.#  
+  #.###.#####.###.###.#.#.#######  
+  #.#.........#...#.............#  
+  #########.###.###.#############  
+           B   J   C               
+           U   P   P               '''
 
 
 # input = '''                                 T Z     P       J     A       Y           U                             
@@ -236,7 +236,8 @@ def parseMaze(input):
                     maze[i][j + 1] = ' '
                 else:       # portal found
                     portals[maze[i][j] + maze[i][j + 1]] = portal # memorize
-                    portal_pos[portal] = [0, 0, i, j]
+
+                    portal_pos[portal] = [0, 0, i, j + 2]
                     maze[i][j + 2] = str(portal)
                     maze[i][j] = ' '
                     maze[i][j + 1] = ' '
@@ -256,7 +257,7 @@ def parseMaze(input):
                     maze[i - 1][j] = ' '
                 else:       # portal found
                     portals[maze[i - 1][j] + maze[i][j]] = portal # memorize
-                    portal_pos[portal] = [0, 0, i, j]
+                    portal_pos[portal] = [0, 0, i - 2, j]
                     maze[i - 2][j] = str(portal)
                     maze[i][j] = ' '
                     maze[i - 1][j] = ' '
@@ -277,7 +278,7 @@ def parseMaze(input):
                     maze[i][j - 1] = ' '    
                 else:       # portal found
                     portals[maze[i][j - 1] + maze[i][j]] = portal # memorize
-                    portal_pos[portal] = [0, 0, i, j]
+                    portal_pos[portal] = [0, 0, i, j - 2]
                     maze[i][j - 2] = str(portal)
                     maze[i][j] = ' '
                     maze[i][j - 1] = ' '
@@ -296,14 +297,13 @@ def parseMaze(input):
 
               if maze[i - 1][j] == '.':   # inner top part
                 maze[i - 1][j] = portals[maze[i][j] + maze[i + 1][j]]
-                portal_pos[portals[maze[i][j] + maze[i + 1][j]]][0] = i
+                portal_pos[portals[maze[i][j] + maze[i + 1][j]]][0] = i - 1
                 portal_pos[portals[maze[i][j] + maze[i + 1][j]]][1] = j
                 
-                #list(portal_pos[portals[maze[i][j] + maze[i + 1][j]]][0]) = j
 
               elif maze[i + 2][j] == '.': # inner bottom part
                 maze[i + 2][j] = portals[maze[i][j] + maze[i + 1][j]]    
-                portal_pos[portals[maze[i][j] + maze[i + 1][j]]][0] = i 
+                portal_pos[portals[maze[i][j] + maze[i + 1][j]]][0] = i + 2 
                 portal_pos[portals[maze[i][j] + maze[i + 1][j]]][1] = j
 
               maze[i][j] = ' '
@@ -315,13 +315,13 @@ def parseMaze(input):
               if maze[i][j - 1] == '.':   # inner left
                 maze[i][j - 1] = portals[maze[i][j] + maze[i][j + 1]]
                 portal_pos[portals[maze[i][j] + maze[i][j + 1]]][0] = i 
-                portal_pos[portals[maze[i][j] + maze[i][j + 1]]][1] = j 
+                portal_pos[portals[maze[i][j] + maze[i][j + 1]]][1] = j - 1
                 maze[i][j] = ' '
                 maze[i][j + 1] = ' '
               elif maze[i][j + 2] == '.': # inner right
                 maze[i][j + 2] = portals[maze[i][j] + maze[i][j + 1]]
                 portal_pos[portals[maze[i][j] + maze[i][j + 1]]][0] = i 
-                portal_pos[portals[maze[i][j] + maze[i][j + 1]]][1] = j 
+                portal_pos[portals[maze[i][j] + maze[i][j + 1]]][1] = j + 2
                 maze[i][j] = ' '
                 maze[i][j + 1] = ' '
                 
@@ -330,13 +330,10 @@ def parseMaze(input):
   
     printMaze(maze, rows, cols)
     print(portals)
-    print(portal_pos[1])
 
-    print(portal_pos[1][0])
-    print(portal_pos[1][1])
-    c_i = portal_pos[1][0]
-    c_j = portal_pos[1][1]
-    print(f"this is: {maze[c_j][c_i]}")
+    for k, v in portal_pos.items():
+        print(f"{k} : {v}")
+    #print(portal_pos)
  
     
 parseMaze(input)
