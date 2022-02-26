@@ -191,8 +191,6 @@ def parseMaze(input):
     cols = len(input[0])
     rows = len(input)
     
-    print(f"cols = {cols}")
-    print(f"rows = {rows}")
     maze = []
     for i in range(0, rows):
         _r = [char for char in input[i]]
@@ -209,10 +207,12 @@ def parseMaze(input):
                     maze[i + 2][j] = 's'
                     maze[i][j] = ' '
                     maze[i + 1][j] = ' '
+                    portal_pos['s'] = (i + 2, j)
                 elif maze[i][j] == 'Z' and maze[i + 1][j] == 'Z':
                     maze[i + 2][j] = 'e'
                     maze[i][j] = ' '
                     maze[i + 1][j] = ' '
+                    portal_pos['e'] = (i + 2, j)
                 else:       # portal found
                     portals[maze[i][j] + maze[i + 1][j]] = portal # memorize
                     portal_pos[portal] = [0, 0, i, j]     # ((entrace_i, entrace_j), (exit_i, exit_j))
@@ -230,13 +230,14 @@ def parseMaze(input):
                     maze[i][j + 2] = 's'
                     maze[i][j] = ' '
                     maze[i][j + 1] = ' '
+                    portal_pos['s'] = (i, j + 2)
                 elif maze[i][j] == 'Z' and maze[i][j + 1] == 'Z':
                     maze[i][j + 2] = 'e'
                     maze[i][j] = ' '
                     maze[i][j + 1] = ' '
+                    portal_pos['e'] = (i, j + 2)
                 else:       # portal found
                     portals[maze[i][j] + maze[i][j + 1]] = portal # memorize
-
                     portal_pos[portal] = [0, 0, i, j + 2]
                     maze[i][j + 2] = str(portal)
                     maze[i][j] = ' '
@@ -251,10 +252,12 @@ def parseMaze(input):
                     maze[i - 2][j] = 's'
                     maze[i][j] = ' '
                     maze[i - 1][j] = ' '
+                    portal_pos['s'] = (i - 2, j)
                 elif maze[i][j] == 'Z' and maze[i - 1][j] == 'Z':
                     maze[i - 2][j] = 'e'
                     maze[i][j] = ' '
                     maze[i - 1][j] = ' '
+                    portal_pos['e'] = (i - 2, j)
                 else:       # portal found
                     portals[maze[i - 1][j] + maze[i][j]] = portal # memorize
                     portal_pos[portal] = [0, 0, i - 2, j]
@@ -272,10 +275,12 @@ def parseMaze(input):
                     maze[i][j - 2] = 's'
                     maze[i][j] = ' '
                     maze[i][j - 1] = ' '
+                    portal_pos['s'] = (i, j - 2)
                 elif maze[i][j] == 'Z' and maze[i][j - 1] == 'Z':
                     maze[i][j - 2] = 'e'
                     maze[i][j] = ' '
                     maze[i][j - 1] = ' '    
+                    portal_pos['e'] = (i, j - 2)
                 else:       # portal found
                     portals[maze[i][j - 1] + maze[i][j]] = portal # memorize
                     portal_pos[portal] = [0, 0, i, j - 2]
@@ -330,10 +335,7 @@ def parseMaze(input):
   
     printMaze(maze, rows, cols)
     print(portals)
-
-    for k, v in portal_pos.items():
-        print(f"{k} : {v}")
-    #print(portal_pos)
+    print(portal_pos)
  
     
 parseMaze(input)
