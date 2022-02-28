@@ -197,33 +197,37 @@ def solveMaze(maze, i, j, rows, cols):
         print(f"I got to the exit")
         return
     
-   # printMaze(maze, rows, cols)
+    printMaze(maze, rows, cols)
 
     if type(maze[i + 1][j]) == int:         # portal bottom
-        if portal_pos[maze[i + 1][j]][0] == i + 1 and portal_pos[maze[i + 1][j]][1] == j:   # if its entrance 
+        p = maze[i + 1][j]
+        if portal_pos[p][0] == i + 1 and portal_pos[p][1] == j:   # if its entrance 
             #warp to exit
-            solveMaze(maze, portal_pos[maze[i + 1][j]][2], portal_pos[maze[i + 1][j]][3], rows, cols)
-        elif portal_pos[maze[i + 1][j]][2] == i + 1 and portal_pos[maze[i + 1][j]][3] == j:       # from exit portal you entered exit portal 
-            #warp to exit
-            solveMaze(maze, portal_pos[maze[i + 1][j]][0], portal_pos[maze[i + 1][j]][1], rows, cols)
+            solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
+        elif portal_pos[p][2] == i + 1 and portal_pos[p][3] == j:       # from exit portal you entered exit portal 
+            #warp to entrance
+            solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
         
     elif type(maze[i][j + 1]) == int:       # portal right
-        if portal_pos[maze[i][j + 1]][0] == i and portal_pos[maze[i][j + 1]][1] == j + 1:
-            solveMaze(maze, portal_pos[maze[i][j + 1]][2], portal_pos[maze[i][j + 1]][3], rows, cols)
-        elif portal_pos[maze[i][j + 1]][2] == i and portal_pos[maze[i][j + 1]][3] == j + 1:
-            solveMaze(maze, portal_pos[maze[i][j + 1]][0], portal_pos[maze[i][j + 1]][1], rows, cols)
+        p = maze[i][j + 1]
+        if portal_pos[p][0] == i and portal_pos[p][1] == j + 1:
+            solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
+        elif portal_pos[p][2] == i and portal_pos[p][3] == j + 1:
+            solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
+
     elif type(maze[i - 1][j]) == int:       # portal up
-        if portal_pos[maze[i - 1][j]][0] == i - 1 and portal_pos[maze[i - 1][j]][1] == j:
-            solveMaze(maze, portal_pos[maze[i - 1][j]][2], portal_pos[maze[i - 1][j]][3], rows, cols)
-        elif portal_pos[maze[i - 1][j]][2] == i - 1 and portal_pos[maze[i - 1][j]][3] == j: 
-            solveMaze(maze, portal_pos[maze[i - 1][j]][0], portal_pos[maze[i - 1][j]][1], rows, cols)
+        p = maze[i - 1][j]
+        if portal_pos[p][0] == i - 1 and portal_pos[p][1] == j:
+            solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
+        elif portal_pos[p][2] == i - 1 and portal_pos[p][3] == j: 
+            solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
     elif type(maze[i][j - 1]) == int:       # portal left
-        print(f"ENTEER")
-        if portal_pos[maze[i][j - 1]][0] == i and portal_pos[maze[i][j - 1]][1] == j - 1:
-            solveMaze(maze, portal_pos[maze[i][j - 1]][2], portal_pos[maze[i][j - 1]][3], rows, cols)
-        elif portal_pos[maze[i][j - 1]][2] == i and portal_pos[maze[i][j - 1]][3] == j - 1:
-            print(f"im hereee")
-            solveMaze(maze, portal_pos[maze[i][j - 1]][0], portal_pos[maze[i][j - 1]][1], rows, cols)
+
+        p = maze[i][j - 1]
+        if portal_pos[p][0] == i and portal_pos[p][1] == j - 1:
+            solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
+        elif portal_pos[p][2] == i and portal_pos[p][3] == j - 1:
+            solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
 
     if  maze[i + 1][j] == '.':
         maze[i + 1][j] = 'v'
