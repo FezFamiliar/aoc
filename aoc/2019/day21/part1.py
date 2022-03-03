@@ -227,10 +227,24 @@ def solveMaze(maze, i, j, rows, cols):
     elif type(maze[i][j + 1]) == int:       # portal right
         p = maze[i][j + 1]
         
-        if portal_pos[p][0] == i and portal_pos[p][1] == j + 1:
-            solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
-        elif portal_pos[p][2] == i and portal_pos[p][3] == j + 1:
-            solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
+        printMaze(maze, rows, cols)
+        print(f"inside")
+        print(f"i = {i}")
+        print(f"j = {j}")
+        print(f"{p}")
+
+        print(f"down: {maze[i + 1][j]}")
+        print(f"left: {maze[i][j - 1]}")
+        print(f"up: {maze[i - 1][j]}")
+        exit(1)
+        if maze[i + 1][j] == '^' or  maze[i][j - 1] == '>' or maze[i - 1][j] == 'v':     # im entering an exit portal
+
+            if portal_pos[p][0] == i and portal_pos[p][1] == j + 1:
+                solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
+            elif portal_pos[p][2] == i and portal_pos[p][3] == j + 1:
+                solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
+        else:
+            pass
 
     elif type(maze[i - 1][j]) == int:       # portal up
         p = maze[i - 1][j]
