@@ -191,25 +191,42 @@ def printMaze(maze, rows, cols):
 def solveMaze(maze, i, j, rows, cols):
 
     global steps
-    print(f"({i}, {j})")
+    steps += 1
 
-    if maze[i + 1][j] == 'e' or maze[i][j + 1] == 'e' or maze[i - 1][j] == 'e' or maze[i][j - 1] == 'e':
-        print(f"I got to the exit")
-        return
+    print(f"Total number of steps: {steps}")
+    if maze[i + 1][j] == 'e':
+        maze[i][j] = 'v'
+        exit(1)
+    if maze[i][j + 1] == 'e':
+        maze[i][j] = '>'
+        exit(1)
+    if maze[i - 1][j] == 'e':
+        maze[i][j] = '^'
+        exit(1)
+    if maze[i][j - 1] == 'e':
+        maze[i][j] = '<'
+        exit(1)
     
-    printMaze(maze, rows, cols)
+    
 
     if type(maze[i + 1][j]) == int:         # portal bottom
+        
         p = maze[i + 1][j]
-        if portal_pos[p][0] == i + 1 and portal_pos[p][1] == j:   # if its entrance 
-            #warp to exit
-            solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
-        elif portal_pos[p][2] == i + 1 and portal_pos[p][3] == j:       # from exit portal you entered exit portal 
-            #warp to entrance
-            solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
+
+        if maze[i][j + 1] == '<' or maze[i - 1][j] == 'v' or maze[i][j - 1] == '>':     # im entering an exit portal
+
+            if portal_pos[p][0] == i + 1 and portal_pos[p][1] == j:   # if its entrance 
+                #warp to exit
+                solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
+            elif portal_pos[p][2] == i + 1 and portal_pos[p][3] == j:       # from exit portal you entered exit portal 
+                #warp to entrance
+                solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
+        else:
+            pass
         
     elif type(maze[i][j + 1]) == int:       # portal right
         p = maze[i][j + 1]
+        
         if portal_pos[p][0] == i and portal_pos[p][1] == j + 1:
             solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
         elif portal_pos[p][2] == i and portal_pos[p][3] == j + 1:
@@ -221,13 +238,22 @@ def solveMaze(maze, i, j, rows, cols):
             solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
         elif portal_pos[p][2] == i - 1 and portal_pos[p][3] == j: 
             solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
-    elif type(maze[i][j - 1]) == int:       # portal left
 
-        p = maze[i][j - 1]
-        if portal_pos[p][0] == i and portal_pos[p][1] == j - 1:
-            solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
-        elif portal_pos[p][2] == i and portal_pos[p][3] == j - 1:
-            solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
+    elif maze[i][j - 1].isdigit():       # portal left
+        
+        p = int(maze[i][j - 1])
+
+        if maze[i + 1][j] == '^' or  maze[i][j + 1] == '<' or maze[i - 1][j] == 'v':     # im entering an exit portal
+        
+            if portal_pos[p][0] == i and portal_pos[p][1] == j - 1:
+                solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
+            elif portal_pos[p][2] == i and portal_pos[p][3] == j - 1:
+                solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
+
+        else:                                # im coming out of an exit portal
+            pass
+
+
 
     if  maze[i + 1][j] == '.':
         maze[i + 1][j] = 'v'
@@ -237,6 +263,7 @@ def solveMaze(maze, i, j, rows, cols):
         maze[i][j + 1] = '>'
         solveMaze(maze, i, j + 1, rows, cols)           # go right
 
+
     if maze[i][j - 1] == '.':                           # go left
         maze[i][j - 1] = '<'
         solveMaze(maze, i, j - 1, rows, cols)
@@ -245,7 +272,7 @@ def solveMaze(maze, i, j, rows, cols):
         maze[i - 1][j] = '^'
         solveMaze(maze, i - 1, j, rows, cols)          
 
-    steps += 1
+
 
     #return False
 
