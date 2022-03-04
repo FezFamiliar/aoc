@@ -176,7 +176,7 @@ FG..#########.....#
 alphabet = string.ascii_uppercase
 portals = {}
 portal_pos = {}
-steps = 0
+steps = -2
 erase = '\x1b[1A\x1b[2K'
 
 def printMaze(maze, rows, cols):
@@ -191,78 +191,92 @@ def printMaze(maze, rows, cols):
 def solveMaze(maze, i, j, rows, cols):
 
     global steps
-    steps += 1
 
-    print(f"Total number of steps: {steps}")
+
     if maze[i + 1][j] == 'e':
+        print(f"Total number of steps: {steps}")
         maze[i][j] = 'v'
         exit(1)
     if maze[i][j + 1] == 'e':
+        print(f"Total number of steps: {steps}")
         maze[i][j] = '>'
         exit(1)
     if maze[i - 1][j] == 'e':
+        print(f"Total number of steps: {steps}")
         maze[i][j] = '^'
         exit(1)
     if maze[i][j - 1] == 'e':
+        print(f"Total number of steps: {steps}")
         maze[i][j] = '<'
         exit(1)
     
-    
-
     if type(maze[i + 1][j]) == int:         # portal bottom
         
         p = maze[i + 1][j]
 
-        if maze[i][j + 1] == '<' or maze[i - 1][j] == 'v' or maze[i][j - 1] == '>':     # im entering an exit portal
+        if maze[i][j + 1] == '<' or maze[i - 1][j] == 'v' or maze[i][j - 1] == '>':     # do not go into the portal u've just came out of
 
             if portal_pos[p][0] == i + 1 and portal_pos[p][1] == j:   # if its entrance 
                 #warp to exit
+                steps += 1
                 solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
+                steps -= 1
             elif portal_pos[p][2] == i + 1 and portal_pos[p][3] == j:       # from exit portal you entered exit portal 
                 #warp to entrance
+                steps += 1
                 solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
+                steps -= 1
         else:
             pass
         
     elif type(maze[i][j + 1]) == int:       # portal right
+
         p = maze[i][j + 1]
         
-        printMaze(maze, rows, cols)
-        print(f"inside")
-        print(f"i = {i}")
-        print(f"j = {j}")
-        print(f"{p}")
-
-        print(f"down: {maze[i + 1][j]}")
-        print(f"left: {maze[i][j - 1]}")
-        print(f"up: {maze[i - 1][j]}")
-        exit(1)
-        if maze[i + 1][j] == '^' or  maze[i][j - 1] == '>' or maze[i - 1][j] == 'v':     # im entering an exit portal
+        if maze[i + 1][j] == '^' or  maze[i][j - 1] == '>' or maze[i - 1][j] == 'v':     # do not go into the portal u've just came out of
 
             if portal_pos[p][0] == i and portal_pos[p][1] == j + 1:
+                steps += 1
                 solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
+                steps -= 1
             elif portal_pos[p][2] == i and portal_pos[p][3] == j + 1:
+                steps += 1
                 solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
+                steps -= 1
         else:
             pass
 
+
     elif type(maze[i - 1][j]) == int:       # portal up
+
         p = maze[i - 1][j]
-        if portal_pos[p][0] == i - 1 and portal_pos[p][1] == j:
-            solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
-        elif portal_pos[p][2] == i - 1 and portal_pos[p][3] == j: 
-            solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
 
-    elif maze[i][j - 1].isdigit():       # portal left
+        if maze[i + 1][j] == '^' or  maze[i][j - 1] == '>' or maze[i][j + 1] == '<':     # do not go into the portal u've just came out of
+            if portal_pos[p][0] == i - 1 and portal_pos[p][1] == j:
+                steps += 1
+                solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
+                steps -= 1
+            elif portal_pos[p][2] == i - 1 and portal_pos[p][3] == j: 
+                steps += 1
+                solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
+                steps -= 1
+        else:
+            pass
+
+    elif type(maze[i][j - 1]) == int:       # portal left
         
-        p = int(maze[i][j - 1])
+        p = maze[i][j - 1]
 
-        if maze[i + 1][j] == '^' or  maze[i][j + 1] == '<' or maze[i - 1][j] == 'v':     # im entering an exit portal
+        if maze[i + 1][j] == '^' or  maze[i][j + 1] == '<' or maze[i - 1][j] == 'v':     # do not go into the portal u've just came out of
         
             if portal_pos[p][0] == i and portal_pos[p][1] == j - 1:
+                steps += 1
                 solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
+                steps -= 1
             elif portal_pos[p][2] == i and portal_pos[p][3] == j - 1:
+                steps += 1
                 solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
+                steps -= 1
 
         else:                                # im coming out of an exit portal
             pass
@@ -271,22 +285,28 @@ def solveMaze(maze, i, j, rows, cols):
 
     if  maze[i + 1][j] == '.':
         maze[i + 1][j] = 'v'
+        steps += 1
         solveMaze(maze, i + 1, j, rows, cols)           # go down
+        steps -= 1
 
     if maze[i][j + 1] == '.':
         maze[i][j + 1] = '>'
+        steps += 1
         solveMaze(maze, i, j + 1, rows, cols)           # go right
+        steps -= 1
 
 
     if maze[i][j - 1] == '.':                           # go left
         maze[i][j - 1] = '<'
+        steps += 1
         solveMaze(maze, i, j - 1, rows, cols)
+        steps -= 1
 
     if  maze[i - 1][j] == '.':                          # go up
         maze[i - 1][j] = '^'
+        steps += 1
         solveMaze(maze, i - 1, j, rows, cols)          
-
-
+        steps -= 1
 
     #return False
 
@@ -323,8 +343,8 @@ def parseMaze(input):
                     portal_pos['e'] = (i + 2, j)
                 else:       # portal found
                     portals[maze[i][j] + maze[i + 1][j]] = portal # memorize
-                    portal_pos[portal] = [0, 0, i, j]     # ((entrace_i, entrace_j), (exit_i, exit_j))
-                    maze[i + 2][j] = str(portal)
+                    portal_pos[portal] = [0, 0, i + 2, j]     # ((entrace_i, entrace_j), (exit_i, exit_j))
+                    maze[i + 2][j] = portal
                     maze[i][j] = ' '
                     maze[i + 1][j] = ' '
                     portal += 1
@@ -347,7 +367,7 @@ def parseMaze(input):
                 else:       # portal found
                     portals[maze[i][j] + maze[i][j + 1]] = portal # memorize
                     portal_pos[portal] = [0, 0, i, j + 2]
-                    maze[i][j + 2] = str(portal)
+                    maze[i][j + 2] = portal
                     maze[i][j] = ' '
                     maze[i][j + 1] = ' '
                     portal += 1
@@ -369,10 +389,11 @@ def parseMaze(input):
                 else:       # portal found
                     portals[maze[i - 1][j] + maze[i][j]] = portal # memorize
                     portal_pos[portal] = [0, 0, i - 2, j]
-                    maze[i - 2][j] = str(portal)
+                    maze[i - 2][j] = portal
                     maze[i][j] = ' '
                     maze[i - 1][j] = ' '
                     portal += 1
+
 
 
         # outer right part
@@ -392,13 +413,10 @@ def parseMaze(input):
                 else:       # portal found
                     portals[maze[i][j - 1] + maze[i][j]] = portal # memorize
                     portal_pos[portal] = [0, 0, i, j - 2]
-                    maze[i][j - 2] = str(portal)
+                    maze[i][j - 2] = portal
                     maze[i][j] = ' '
                     maze[i][j - 1] = ' '
                     portal += 1
-
-
-  
 
   # parse inner portals
 
@@ -408,16 +426,17 @@ def parseMaze(input):
 
             if maze[i + 1][j] in alphabet: # inner top part or bottom part
 
-              if maze[i - 1][j] == '.':   # inner top part
-                maze[i - 1][j] = portals[maze[i][j] + maze[i + 1][j]]
-                portal_pos[portals[maze[i][j] + maze[i + 1][j]]][0] = i - 1
-                portal_pos[portals[maze[i][j] + maze[i + 1][j]]][1] = j
-                
+              p = portals[maze[i][j] + maze[i + 1][j]]
 
+              if maze[i - 1][j] == '.':   # inner top part
+                maze[i - 1][j] = p
+                portal_pos[p][0] = i - 1
+                portal_pos[p][1] = j
+                
               elif maze[i + 2][j] == '.': # inner bottom part
-                maze[i + 2][j] = portals[maze[i][j] + maze[i + 1][j]]    
-                portal_pos[portals[maze[i][j] + maze[i + 1][j]]][0] = i + 2 
-                portal_pos[portals[maze[i][j] + maze[i + 1][j]]][1] = j
+                maze[i + 2][j] = p    
+                portal_pos[p][0] = i + 2 
+                portal_pos[p][1] = j
 
               maze[i][j] = ' '
               maze[i + 1][j] = ' '
@@ -425,27 +444,34 @@ def parseMaze(input):
 
             elif maze[i][j + 1] in alphabet: # inner left or right part
 
+              p = portals[maze[i][j] + maze[i][j + 1]]
               if maze[i][j - 1] == '.':   # inner left
-                maze[i][j - 1] = portals[maze[i][j] + maze[i][j + 1]]
-                portal_pos[portals[maze[i][j] + maze[i][j + 1]]][0] = i 
-                portal_pos[portals[maze[i][j] + maze[i][j + 1]]][1] = j - 1
-                maze[i][j] = ' '
-                maze[i][j + 1] = ' '
+                maze[i][j - 1] = p
+                portal_pos[p][0] = i 
+                portal_pos[p][1] = j - 1
+
               elif maze[i][j + 2] == '.': # inner right
-                maze[i][j + 2] = portals[maze[i][j] + maze[i][j + 1]]
-                portal_pos[portals[maze[i][j] + maze[i][j + 1]]][0] = i 
-                portal_pos[portals[maze[i][j] + maze[i][j + 1]]][1] = j + 2
-                maze[i][j] = ' '
-                maze[i][j + 1] = ' '
+                maze[i][j + 2] = p
+                portal_pos[p][0] = i 
+                portal_pos[p][1] = j + 2
+              maze[i][j] = ' '
+              maze[i][j + 1] = ' '
                 
               
 
-  
-    #printMaze(maze, rows, cols)
-    #print(portals)
-    print(portal_pos)
+    
+    # print(portal_pos)
+    # #ALL ENTRANCE PORTALS ARE INT, AND ALL EXIT PORTALS ARE STR!!!!!!!!!!!!!!!!!!!!!!!!!
+    # for k, v in portal_pos.items():
+
+    #     if k == 's' or k == 'e':
+    #         continue
+    
+
+    #     print(f"{type(maze[v[2]][v[3]])}")
+    # exit(1)
     solveMaze(maze, portal_pos['s'][0], portal_pos['s'][1], rows, cols)
-    print(f"Total number of steps: {steps}")
+    #print(f"Total number of steps: {steps}")
     
 parseMaze(input)
 
