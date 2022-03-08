@@ -1,64 +1,64 @@
 import string, time, os
 
 
-# input = '''         A           
-#          A           
-#   #######.#########  
-#   #######.........#  
-#   #######.#######.#  
-#   #######.#######.#  
-#   #######.#######.#  
-#   #####  B    ###.#  
-# BC...##  C    ###.#  
-#   ##.##       ###.#  
-#   ##...DE  F  ###.#  
-#   #####    G  ###.#  
-#   #########.#####.#  
-# DE..#######...###.#  
-#   #.#########.###.#  
-# FG..#########.....#  
-#   ###########.#####  
-#              Z       
-#              Z       '''
+input = '''         A           
+         A           
+  #######.#########  
+  #######.........#  
+  #######.#######.#  
+  #######.#######.#  
+  #######.#######.#  
+  #####  B    ###.#  
+BC...##  C    ###.#  
+  ##.##       ###.#  
+  ##...DE  F  ###.#  
+  #####    G  ###.#  
+  #########.#####.#  
+DE..#######...###.#  
+  #.#########.###.#  
+FG..#########.....#  
+  ###########.#####  
+             Z       
+             Z       '''
 
 
-# input = '''                   A               
-#                    A               
-#   #################.#############  
-#   #.#...#...................#.#.#  
-#   #.#.#.###.###.###.#########.#.#  
-#   #.#.#.......#...#.....#.#.#...#  
-#   #.#########.###.#####.#.#.###.#  
-#   #.............#.#.....#.......#  
-#   ###.###########.###.#####.#.#.#  
-#   #.....#        A   C    #.#.#.#  
-#   #######        S   P    #####.#  
-#   #.#...#                 #......VT
-#   #.#.#.#                 #.#####  
-#   #...#.#               YN....#.#  
-#   #.###.#                 #####.#  
-# DI....#.#                 #.....#  
-#   #####.#                 #.###.#  
-# ZZ......#               QG....#..AS
-#   ###.###                 #######  
-# JO..#.#.#                 #.....#  
-#   #.#.#.#                 ###.#.#  
-#   #...#..DI             BU....#..LF
-#   #####.#                 #.#####  
-# YN......#               VT..#....QG
-#   #.###.#                 #.###.#  
-#   #.#...#                 #.....#  
-#   ###.###    J L     J    #.#.###  
-#   #.....#    O F     P    #.#...#  
-#   #.###.#####.#.#####.#####.###.#  
-#   #...#.#.#...#.....#.....#.#...#  
-#   #.#####.###.###.#.#.#########.#  
-#   #...#.#.....#...#.#.#.#.....#.#  
-#   #.###.#####.###.###.#.#.#######  
-#   #.#.........#...#.............#  
-#   #########.###.###.#############  
-#            B   J   C               
-#            U   P   P               '''
+input = '''                   A               
+                   A               
+  #################.#############  
+  #.#...#...................#.#.#  
+  #.#.#.###.###.###.#########.#.#  
+  #.#.#.......#...#.....#.#.#...#  
+  #.#########.###.#####.#.#.###.#  
+  #.............#.#.....#.......#  
+  ###.###########.###.#####.#.#.#  
+  #.....#        A   C    #.#.#.#  
+  #######        S   P    #####.#  
+  #.#...#                 #......VT
+  #.#.#.#                 #.#####  
+  #...#.#               YN....#.#  
+  #.###.#                 #####.#  
+DI....#.#                 #.....#  
+  #####.#                 #.###.#  
+ZZ......#               QG....#..AS
+  ###.###                 #######  
+JO..#.#.#                 #.....#  
+  #.#.#.#                 ###.#.#  
+  #...#..DI             BU....#..LF
+  #####.#                 #.#####  
+YN......#               VT..#....QG
+  #.###.#                 #.###.#  
+  #.#...#                 #.....#  
+  ###.###    J L     J    #.#.###  
+  #.....#    O F     P    #.#...#  
+  #.###.#####.#.#####.#####.###.#  
+  #...#.#.#...#.....#.....#.#...#  
+  #.#####.###.###.#.#.#########.#  
+  #...#.#.....#...#.#.#.#.....#.#  
+  #.###.#####.###.###.#.#.#######  
+  #.#.........#...#.............#  
+  #########.###.###.#############  
+           B   J   C               
+           U   P   P               '''
 
 
 # input = '''                                 T Z     P       J     A       Y           U                             
@@ -173,18 +173,43 @@ import string, time, os
 #                                    X A     K         W   E       M     Q                                 
 #                                    I A     J         A   E       F     E                                 '''
 
+
+COLORS = {
+    "RED": "\u001b[31m",
+    "GREEN": "\u001b[32m",
+    "CYAN": "\u001b[36m",
+    "BLUE": "\u001b[34m",
+    "RESET": "\u001b[0m",
+    "MAGENTA": "\u001b[35m",
+    "YELLOW": "\u001b[33m",
+    "WHITE": "\u001b[37m",
+    "LIGHTBLUE": "\u001b[34;1m",
+    "BRIGHTRED": "\u001b[31;1m"
+}
+
 alphabet = string.ascii_uppercase
 portals = {}
 portal_pos = {}
 steps = 1
-erase = '\x1b[1A\x1b[2K'
+
 
 def printMaze(maze, rows, cols):
     
     for i in range(0, rows):
         for j in range(0, cols):
-            print(f"{maze[i][j]} ", end="")
-        print()
+            
+            if maze[i][j] == 'x':
+                print(f"{COLORS['LIGHTBLUE']}{maze[i][j]}{COLORS['RESET']} ", end="")
+            elif type(maze[i][j]) == int:
+                print(f"{COLORS['CYAN']}{maze[i][j]}{COLORS['RESET']} ", end="")
+            elif maze[i][j] == '>' or maze[i][j] == '<' or maze[i][j] == '^' or maze[i][j] == 'v':
+                print(f"{COLORS['GREEN']}{maze[i][j]}{COLORS['RESET']} ", end="")
+            elif maze[i][j] == '#':
+                print(f"{COLORS['BRIGHTRED']}{maze[i][j]}{COLORS['RESET']} ", end="")
+            else:
+                print(f"{maze[i][j]} ", end="")
+        print('\n')
+    time.sleep(2.4)
 
     
 
@@ -192,7 +217,11 @@ def solveMaze(maze, i, j, rows, cols):
 
     global steps
 
+    printMaze(maze, rows, cols)
+    
+    #time.sleep(2.4)
 
+    # EXIT CONDITION 
     if maze[i + 1][j] == 'e':
         print(f"Total number of steps: {steps}")
 
@@ -213,26 +242,27 @@ def solveMaze(maze, i, j, rows, cols):
         maze[i][j] = '<'
         exit(1)
     
+
+
+    # GO INTO AN EXIT/ENTRANCE PORTAL
+
     if type(maze[i + 1][j]) == int:         # portal bottom
         
 
         p = maze[i + 1][j]
-        # printMaze(maze, rows, cols)
-        # print(f"portl found: ({i + 1}, {j})")
-        # print(f"it si: {p}")
-        # exit(1)
+
         if maze[i][j] != '^':     # do not go into the portal u've just came out of
 
             if portal_pos[p][0] == i + 1 and portal_pos[p][1] == j:   # if its entrance 
                 #warp to exit
                 steps += 1
                 solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
-                steps -= 1
+
             elif portal_pos[p][2] == i + 1 and portal_pos[p][3] == j:       # from exit portal you entered exit portal 
                 #warp to entrance
                 steps += 1
                 solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
-                steps -= 1
+
         else:
             pass
         
@@ -246,11 +276,11 @@ def solveMaze(maze, i, j, rows, cols):
             if portal_pos[p][0] == i and portal_pos[p][1] == j + 1:
                 steps += 1
                 solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
-                steps -= 1
+
             elif portal_pos[p][2] == i and portal_pos[p][3] == j + 1:
                 steps += 1
                 solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
-                steps -= 1
+
         else:
             pass
 
@@ -263,11 +293,10 @@ def solveMaze(maze, i, j, rows, cols):
             if portal_pos[p][0] == i - 1 and portal_pos[p][1] == j:
                 steps += 1
                 solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
-                steps -= 1
             elif portal_pos[p][2] == i - 1 and portal_pos[p][3] == j: 
                 steps += 1
                 solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
-                steps -= 1
+
         else:
             pass
 
@@ -282,44 +311,45 @@ def solveMaze(maze, i, j, rows, cols):
             if portal_pos[p][0] == i and portal_pos[p][1] == j - 1:
                 steps += 1
                 solveMaze(maze, portal_pos[p][2], portal_pos[p][3], rows, cols)
-                steps -= 1
+
             elif portal_pos[p][2] == i and portal_pos[p][3] == j - 1:
                 steps += 1
                 solveMaze(maze, portal_pos[p][0], portal_pos[p][1], rows, cols)
-                steps -= 1
 
         else:                                # im coming out of an exit portal
             pass
 
 
 
+     # STEP IN ONE OF 4 DIRETIONS IF ITS A CLEAR PATH, RECURSE 
     if  maze[i + 1][j] == '.':
         maze[i + 1][j] = 'v'
         steps += 1
         solveMaze(maze, i + 1, j, rows, cols)           # go down
-        steps -= 1
+
 
     if maze[i][j + 1] == '.':
         maze[i][j + 1] = '>'
         steps += 1
         solveMaze(maze, i, j + 1, rows, cols)           # go right
-        steps -= 1
+
 
 
     if maze[i][j - 1] == '.':                           # go left
         maze[i][j - 1] = '<'
         steps += 1
         solveMaze(maze, i, j - 1, rows, cols)
-        steps -= 1
+
 
     if  maze[i - 1][j] == '.':                          # go up
         maze[i - 1][j] = '^'
         steps += 1
         solveMaze(maze, i - 1, j, rows, cols)      
-        steps -= 1
+        
 
 
-    
+    maze[i][j] = 'x'
+    steps -= 1
 
 
 
@@ -468,24 +498,9 @@ def parseMaze(input):
               maze[i][j] = ' '
               maze[i][j + 1] = ' '
                 
-              
-
     
-    # print(portal_pos)
-    # #ALL ENTRANCE PORTALS ARE INT, AND ALL EXIT PORTALS ARE STR!!!!!!!!!!!!!!!!!!!!!!!!!
-    # for k, v in portal_pos.items():
-
-    #     if k == 's' or k == 'e':
-    #         continue
-    
-
-    #     print(f"{type(maze[v[2]][v[3]])}")
-    # exit(1)
-    # printMaze(maze, rows, cols)
-    # print(portal_pos)
-    # exit(1)
     solveMaze(maze, portal_pos['s'][0], portal_pos['s'][1], rows, cols)
-    #print(f"Total number of steps: {steps}")
+
     
 parseMaze(input)
 
