@@ -1,18 +1,21 @@
 
 
 def dealWithIncrement(n):
-    
+    global deck
     new_deck = [0 for i in range(end)]
     new_deck[0] = deck[0]
 
     for m in range(1, 10):
         new_deck[(m * n) % end] = deck[m]
     
-    print(f"new deck: {new_deck}")
+    deck = new_deck
 
 def dealNewStack(deck):
 
-    deck.sort(reverse=True)
+    for i in range(0, end // 2):
+        aux = deck[i]
+        deck[i] = deck[end - i - 1]
+        deck[end - i - 1] = aux
 
 
 
@@ -22,9 +25,11 @@ def cutNcards(n):
     if n < 0:
         # cut from bottom onto top
         n = abs(n)
-        aux = deck[:-n - 1:-1]
-        aux.sort()
-        
+        aux = [0 for i in range(n)]
+        j = 0
+        for i in range(end - n, end):
+            aux[j] = deck[i]
+            j = j + 1
         #apped onto top
         
         first_half = deck[:end - n]
@@ -46,7 +51,18 @@ def cutNcards(n):
 end = 10
 deck = [i for i in range(end)]
 print(deck)
+
+dealNewStack(deck)
+cutNcards(-2)
+dealWithIncrement(7)
+cutNcards(8)
+cutNcards(-4)
+dealWithIncrement(7)
+cutNcards(3)
+dealWithIncrement(9)
 dealWithIncrement(3)
+cutNcards(-1)
+print(deck)
 
 
 
