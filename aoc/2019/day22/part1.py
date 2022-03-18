@@ -166,29 +166,147 @@ deck = [i for i in range(end)]
 # print(deck)
 
 
+# #deal into new stack: f(x) = -x - 1 mod m -> a = -1 , b = -1
+# a = (-1, -1) # representing the coefficients of a LCF (linear congruental function)  f(x) = ax + b mod m 
 
+
+# # cut n: f(x) = x- n mod m -> a = 1, b = -n
+# b = (1, -n)
+
+# #deal with increment n: f(x) = n*x mod m => a = n, b = 0
+# c = (n, 0) 
+
+def compose(a, b, c, d):
+
+    return (a * c % end, (b * c + d) % end)
+
+def calFinal(a, b, x):
+    return (a * x + b) % end 
+
+tuples = []
 input = input.split('\n')
 for i in input:
     if i[0] == 'c':   # cut
         amount = re.findall('-?\d+', i)
-        cutNcards(int(amount[0]))
+        lcf = (1, -int(amount[0]))
+        tuples.append(lcf)
+        #cutNcards(int(amount[0]))
     elif 'deal into' in i:
-        dealNewStack(deck)
+        lcf = (-1, -1)
+        tuples.append(lcf)
+        #dealNewStack(deck)
     else:
         amount = re.findall('\d+', i)
-        dealWithIncrement(int(amount[0]))
+        lcf = (int(amount[0]), 0)
+        tuples.append(lcf)
+        #dealWithIncrement(int(amount[0]))
+    
+
+
+
+nn = len(tuples)
+for i in range(0, nn - 1):
+
+    a = compose(tuples[i][0], tuples[i][1], tuples[i + 1][0], tuples[i + 1][1])
 
         
 
-
-for i in range(0, end):
-    if deck[i] == 2019:
-        print(f"position of card 2019 is at: {i}")
-
-
+print(f"this is ti: {calFinal(a[0], a[1], 2019)}")
+# for i in range(0, end):
+#     if deck[i] == 2019:
+#         print(f"position of card 2019 is at: {i}")
 
 
 
-    
-    
-    
+# def calculateX(a, b, x):
+#     return (a * x + b) % end
+
+
+# end = 10
+# def composeTwoTuples(a, b):
+
+#     return ((a[0] * b[0]) % end, (a[1] * b[0] + b[1]) % end)
+
+# a = (7, 0)
+# b = (-1, -1)
+
+# c = composeTwoTuples(a, b)
+# d = composeTwoTuples(c, b)
+
+# print(d)   # (7, 0) ---> f(x) = ax + b mod m
+
+
+
+# print(f"Result after caulculating x from lcf: {calculateX(d[0], d[1], 1)}")
+# exit(1)
+
+
+
+
+
+# 0 1 2 3 4 5 6 7 8 9 ---> end = 10
+
+# deal into new stack => f(x) = -m -x - 1 => f(x) = ax + b mod end => a, b = -1
+
+# => f(x) = -x - 1 mod 10
+
+# end = 10
+
+# deck = [i for i in range(end)]
+# dealWithIncrement(7)
+# dealNewStack(deck)
+# dealNewStack(deck)
+# print(deck)
+
+
+# def dealIntoNewStackModWay(x):          # a = -1, b = -1 
+#     return (-x - 1) % end
+
+
+# def cutNCardsModWay(x, n):   # a = 1, b = -n
+#     return (x - n) % end
+
+
+# def dealWithIncremenetModWay(x, n):         # move the card at position x to (n * x) % end, a = n, b = 0
+#     return (n * x) % end 
+
+
+# x = 1
+# n = 7
+
+
+# # for i in range(0, end):
+# #     print(f"dealing with increment, n: {n}, : x = {i}: {cutNCardsModWay(i, n)}")
+
+
+
+# # f(x) = ax + b mod m
+
+# # g(x) = cx + d mod m
+
+# # g(f(x)) = c(ax + b mod m) + d mod m => cax + cb + d mod m 
+
+
+
+
+
+# # deal with increment 7 => f(x)
+# # deal into new stack   => g(x)
+# # deal into new stack   => h(x)
+
+
+
+# print(f"compose: {compose(-1, -1, compose(-1, -1, n, 0)[0], compose(-1, -1, n, 0)[1])}")
+
+
+# #(7, 0) => F(X) = 7x + 0 mod end
+
+
+
+
+
+
+
+# for i in range(0, end):
+#     print(f"This is it: {calFinal(7, 0, i)}")
+
