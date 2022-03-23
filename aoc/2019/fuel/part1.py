@@ -1,8 +1,4 @@
 
-from array import array
-from operator import truediv
-
-
 total_ores_spent = 0
 all_chemicals = {}
 leftover_chemicals = {}
@@ -37,13 +33,13 @@ def IsInCache(c):
 
 def checkOre(c):
     global total_ores_spent
-    print(f"this is it: {c}")
     for k, v in ores.items():
         if k[1] == c[1]:
 
             if int(c[0]) <= int(k[0]):
                 if IsInCache(c):
-                    acquired[c[1]] += int(leftover_chemicals[c[1]])              # aquire chemical from cache
+                    print(f"OIs in cache")
+                    acquired[c[1]] += int(c[0])              # aquire chemical from cache
                     leftover_chemicals[c[1]] -= int(c[0])                                                  # decrease number in cache
                 else:
                     
@@ -51,7 +47,9 @@ def checkOre(c):
                         acquired[c[1]] += int(c[0])
                     else:
                         acquired[c[1]] = int(c[0])
+                    
                     total_ores_spent += int(v[0])      # increment total_ores_spent
+                    print(f"Spent: {int(v[0])} ORES for: {c[1]}")
                     l = int(k[0]) - int(c[0])          # calculate leftover chemicals
 
                     if c[1] in leftover_chemicals:
@@ -60,9 +58,6 @@ def checkOre(c):
                         leftover_chemicals[c[1]] = l       # save leftover chemicals in chace
                 #printChemicalStatus()   
             else:
-                print(f"im here")
-
-
                 aux = 0
                 while int(c[0]) > aux:
 
@@ -84,27 +79,18 @@ def checkOre(c):
 
 
 
-def consume(chemicals):  # chemicals needed for FUEL
-    global total_ores_spent
+def consume(chemicals):  # chemicals => [(), (), ()] needed for FUEL
+
     for c in chemicals:
         if checkOre(c):
-            continue
+            pass
         else:
             for k, v in all_chemicals.items():
-                if c[1] == k[1]:           
-                    consume(v)
-                    acquired[c[1]] = int(c[0])
-
-
-
-def checkLeftovers(chemical_tuple):
-
-    for k, v in leftover_chemicals.items():
-        if k == chemical_tuple[0] and v >= chemical_tuple[1]:
-            v -= chemical_tuple[1]
-            return True
-
-    return False
+ 
+                if c[1] == k[1]:         
+                    for i in range(0, int(c[0])):
+                        consume(v)
+                        acquired[c[1]] = int(c[0])
 
 
 
@@ -139,9 +125,9 @@ for i in input:
         all_chemicals[value_tuple] = key_tuple
 
 
+
 for k, v in all_chemicals.items():
 
-    print(f"{k} --- {v}")
     if v[1] == 'ORE':
         ores[k] = v
     if k[1] == 'FUEL':
