@@ -1,4 +1,3 @@
 # Advent Of Code 2019
 
-
-All 25 days in Python & Go
+Ongoing grind to get all 50 stars in Python & Go.
